@@ -13,6 +13,17 @@
 
 .masked-preview{border:1px solid #dce4f3;background:#f8faff;border-radius:13px;padding:14px 16px;margin-top:12px;margin-bottom:12px}.masked-preview-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:#2e3d58}.masked-preview-head span{font-size:11px;color:#8895aa}.masked-preview pre{white-space:pre-wrap;overflow-wrap:anywhere;font-family:inherit;line-height:1.65;color:#354560;font-size:13px;margin:10px 0 0;min-height:25px}@media(max-width:600px){.masked-preview-head{align-items:start;flex-direction:column;gap:4px}}
 
+
+/* v0.6 - contextual OCR risk evidence, readable candidate cards */
+.region-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:5px}
+.region-item{align-items:flex-start;border-color:#cad7eb;padding:13px;gap:11px}
+.region-select{width:100%;font-size:13px;font-weight:780;line-height:1.45}
+.region-mode-label{color:#466183;font-size:11px;white-space:nowrap;padding-top:3px}
+.region-item input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin:4px 0 0;accent-color:#567cce}
+.region-explanation{font-size:11px;color:#355e92;font-weight:750;line-height:1.5}
+.region-reason,.region-tip{font-size:11px;color:#354966;line-height:1.55;margin:0}
+.region-tip{color:#566d8c}
+@media(max-width:700px){.region-item{flex-wrap:wrap}.region-mode-label{order:3;flex-basis:100%;padding-left:0}.region-info{flex-basis:calc(100% - 35px)}}
 </style>
   <style>
 /* ShareGuard readability pass v0.3: stronger type and clear component boundaries.
@@ -184,7 +195,7 @@ footer { color: #5e7189; font-size: 11.5px; }
       </nav>
       <div class="side-bottom">
         <div class="private-box"><span class="private-icon">♧</span><div><strong>브라우저에서 처리합니다</strong><p>선택한 사진과 글은 서버에 업로드하지 않습니다.</p></div></div>
-        <div class="version">ShareGuard · MVP 0.5 <span class="dot"></span> Local first</div>
+        <div class="version">ShareGuard · MVP 0.6 <span class="dot"></span> Local first</div>
       </div>
     </aside>
     <main id="top" class="main">
@@ -215,7 +226,7 @@ footer { color: #5e7189; font-size: 11.5px; }
             </div>
             <div class="sample-row"><span>첫 테스트: 예시 불러오기 → 영역 드래그 → 가림 방식 변경 → 미리보기 → 저장</span><button class="link-btn" id="loadDemo" type="button">가상 사진 예시 불러오기 →</button></div>
           </section>
-          <section class="panel text-panel"><div class="panel-head"><div><div class="section-kicker">02 / CAPTION</div><h2>게시글 개인정보 검사</h2><p>사진과 함께 공유할 게시글을 입력해 주세요.</p></div><span class="optional">선택 입력</span></div><label for="captionInput" class="field-label">게시글 내용</label><textarea id="captionInput" placeholder="예: 새로 이사한 우리 집 근처 카페에 다녀왔습니다. 연락처는 010-1234-5678입니다." rows="5" spellcheck="false"></textarea><div class="masked-preview"><div class="masked-preview-head"><strong>보호 후 게시글 미리보기</strong><span>선택한 가림 설정을 적용합니다.</span></div><pre id="captionPreview" aria-live="polite">게시글을 입력하면 이곳에 미리보기가 표시됩니다.</pre></div><div class="editor-row"><button id="runScan" class="primary-btn" type="button">⌕ 개인정보 검사하기 <span>→</span></button><button id="loadTextDemo" class="secondary-btn" type="button">예시 문장 입력</button></div><p class="privacy-help">게시글은 규칙 기반으로 검사합니다. 사진 속 글자는 별도의 OCR 버튼으로 검사합니다. 얼굴·건물·간판의 객체 자동 인식은 아직 제공하지 않습니다.</p></section>
+          <section class="panel text-panel"><div class="panel-head"><div><div class="section-kicker">02 / CAPTION</div><h2>게시글 개인정보 검사</h2><p>사진과 함께 공유할 게시글을 입력해 주세요.</p></div><span class="optional">선택 입력</span></div><label for="captionInput" class="field-label">게시글 내용</label><textarea id="captionInput" placeholder="예: 새로 이사한 우리 집 근처 카페에 다녀왔습니다. 연락처는 010-1234-5678입니다." rows="5" spellcheck="false"></textarea><div class="masked-preview"><div class="masked-preview-head"><strong>보호 후 게시글 미리보기</strong><span>선택한 가림 설정을 적용합니다.</span></div><pre id="captionPreview" aria-live="polite">게시글을 입력하면 이곳에 미리보기가 표시됩니다.</pre></div><div class="editor-row"><button id="runScan" class="primary-btn" type="button">⌕ 개인정보 검사하기 <span>→</span></button><button id="loadTextDemo" class="secondary-btn" type="button">예시 문장 입력</button></div><p class="privacy-help">게시글은 규칙 기반으로 검사합니다. 사진 속 글자는 업로드 시 OCR로 검사하며 재검사도 가능합니다. 주소·전화번호는 주변 문맥에 따라 개인 정보 또는 사업장 정보 후보로 분류하지만 실제 소유자나 공개 여부는 확정하지 않습니다. 얼굴·건물·간판의 객체 자동 인식은 아직 제공하지 않습니다.</p></section>
           <section id="reports" class="panel report-panel"><div class="panel-head"><div><div class="section-kicker">04 / REPORT</div><h2>검사·저장 결과</h2><p>편집한 사진과 문장을 검토한 뒤 새 파일로 저장하세요.</p></div></div><div class="report-cards"><div class="report-stat"><span>게시글 탐지 후보</span><strong id="statText">0</strong><small>텍스트 규칙 기반</small></div><div class="report-stat"><span>가림 처리 선택</span><strong id="statRegions">0</strong><small>사용자 지정 영역</small></div><div class="report-stat"><span>GPS 메타데이터</span><strong id="statGps">—</strong><small>형식별 지원 상이</small></div></div><div class="report-note" id="reportNote">검사를 시작하면 여기에서 결과를 확인할 수 있습니다.</div><div class="export-choice"><label class="field-label" for="exportFormat">저장할 이미지 형식</label><select id="exportFormat" class="text-input"><option value="image/jpeg">JPG / JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select><span class="format-help">형식을 변경해도 이미지 보호 처리와 메타데이터 재검사가 적용됩니다.</span></div><div class="download-actions"><button class="primary-btn" id="exportImage" type="button" disabled>↧ 편집한 사진 저장</button><button class="secondary-btn" id="copyCaption" type="button" disabled>⧉ 보호된 게시글 복사</button><button class="secondary-btn" id="exportReport" type="button">검사 요약 저장</button></div><p class="privacy-help">재검사는 저장 직전 생성한 JPEG·PNG·WebP 파일의 주요 EXIF/XMP/텍스트 메타데이터를 다시 분석합니다. 탐지되지 않은 정보까지 안전하다고 보장하지는 않습니다.</p></section>
         </div>
         <div class="right-column">
@@ -233,8 +244,8 @@ footer { color: #5e7189; font-size: 11.5px; }
 /** Offline rule-based candidate detection. Not a ML/AI classification result. */
 const PATTERNS = [
   {kind:'email', label:'이메일 주소', severity:'주의', regex:/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, reason:'이메일 주소를 통해 연락처나 계정을 식별할 수 있습니다.', recommend:'공개할 필요가 없다면 이메일 주소를 가려 주세요.'},
-  {kind:'phone', label:'휴대전화 번호', severity:'높음', regex:/(?<!\d)01[016789][- .]?\d{3,4}[- .]?\d{4}(?!\d)/g, reason:'전화번호가 공개되면 원하지 않는 연락을 받을 수 있습니다.', recommend:'전화번호를 마스킹하는 것을 권장합니다.'},
-  {kind:'landline', label:'일반전화 번호', severity:'주의', regex:/(?<!\d)(?:02|0[3-6][1-5]|070)[- .]?\d{3,4}[- .]?\d{4}(?!\d)/g, reason:'전화번호가 공개될 수 있습니다.', recommend:'공유 목적에 맞게 공개 여부를 검토해 주세요.'},
+  {kind:'phone', label:'휴대전화 번호', severity:'높음', regex:/(?<!\d)01[016789][\s.()\-]{0,3}\d{3,4}[\s.()\-]{0,3}\d{4}(?!\d)/g, reason:'전화번호가 공개되면 원하지 않는 연락을 받을 수 있습니다.', recommend:'전화번호를 마스킹하는 것을 권장합니다.'},
+  {kind:'landline', label:'일반전화 번호', severity:'주의', regex:/(?<!\d)(?:02|0[3-6][1-5]|070|080|050\d)[\s.()\-]{0,3}\d{3,4}[\s.()\-]{0,3}\d{4}(?!\d)/g, reason:'전화번호가 공개될 수 있습니다.', recommend:'공유 목적에 맞게 공개 여부를 검토해 주세요.'},
   {kind:'rrn', label:'주민등록번호 형태', severity:'높음', regex:/(?<!\d)\d{6}[- ]?[1-8]\d{6}(?!\d)/g, reason:'개인 식별 번호 형태의 정보가 포함되어 있습니다.', recommend:'번호 전체를 공개하지 않는 것을 권장합니다.'},
   {kind:'apikey', label:'인증정보 형태', severity:'높음', regex:/(?:api[_ -]?key|password|passwd|secret|token)\s*[:=]\s*["']?[A-Za-z0-9_\-!.]{8,}["']?/gi, reason:'인증키 또는 비밀번호 형태의 문자열이 포함되어 있습니다.', recommend:'노출된 실제 인증정보라면 삭제하고 교체를 검토해 주세요.'},
   {kind:'urlsecret', label:'URL 내 인증 토큰 형태', severity:'높음', regex:/[?&](?:token|api_key|apikey|access_token)=[A-Za-z0-9%._-]{8,}/gi, reason:'링크에 인증 토큰 형태의 정보가 포함되어 있습니다.', recommend:'공개 링크에서 인증정보를 제거해 주세요.'}
@@ -244,13 +255,48 @@ const CONTEXT = [
   {kind:'routine',label:'반복되는 생활 패턴',severity:'주의',regex:/(?:매일|매주|퇴근\s?후|등교\s?길|밤\s?\d{1,2}시|혼자\s?오는|항상\s?가는)/g,reason:'반복적인 시간 또는 이동 패턴이 추정될 수 있습니다.',recommend:'필요하지 않다면 구체적인 시간·방문 빈도를 줄여 주세요.'},
   {kind:'location',label:'장소 관련 표현',severity:'주의',regex:/(?:[가-힣]{2,}(?:역|학교|아파트|빌딩|카페)|(?:서울|부산|대구|인천|대전|광주|울산|세종)(?:시)?\s?[가-힣0-9-]{1,}(?:구|동|로|길))/g,reason:'특정 장소가 드러날 수 있습니다. 장소를 공개하는 목적이라면 유지해도 됩니다.',recommend:'거주지나 반복 동선과 연결되는지만 확인해 주세요.'}
 ];
-function analyzeText(text){
+/* Heuristic Korean address & communication data detection; findings are candidates, never confirmed identities. */
+const ADDRESS_RULES = [
+  {kind:'address',label:'도로명 주소 형태',severity:'주의',regex:/(?:서울(?:특별시|시)?|부산(?:광역시|시)?|대구(?:광역시|시)?|인천(?:광역시|시)?|광주(?:광역시|시)?|대전(?:광역시|시)?|울산(?:광역시|시)?|세종(?:특별자치시|시)?|경기(?:도)?|강원(?:특별자치도|도)?|충청(?:북도|남도)|충북|충남|전라(?:북도|남도)|전북(?:특별자치도)?|전남|경상(?:북도|남도)|경북|경남|제주(?:특별자치도|도)?)(?:\s+[가-힣0-9·-]{1,16}(?:시|군|구)){0,3}\s+[가-힣0-9·-]{1,40}(?:대로|로|길)\s*\d{1,5}(?:\s*[-~]\s*\d{1,5})?/g,reason:'상세한 도로명 주소로 추정되는 정보가 포함되어 있습니다.',recommend:'개인 주소라면 가리기를 권장하며 사업장 주소라면 공유 목적을 확인해 주세요.'},
+  {kind:'address',label:'지번 주소 형태',severity:'주의',regex:/(?:서울(?:특별시|시)?|부산(?:광역시|시)?|대구(?:광역시|시)?|인천(?:광역시|시)?|광주(?:광역시|시)?|대전(?:광역시|시)?|울산(?:광역시|시)?|세종(?:특별자치시|시)?|경기(?:도)?|강원(?:특별자치도|도)?|충청(?:북도|남도)|충북|충남|전라(?:북도|남도)|전북(?:특별자치도)?|전남|경상(?:북도|남도)|경북|경남|제주(?:특별자치도|도)?)(?:\s+[가-힣0-9·-]{1,16}(?:시|군|구)){0,3}\s+[가-힣0-9·-]{1,20}(?:읍|면|동|리)\s*\d{1,5}(?:-\d{1,5})?/g,reason:'지번 주소로 추정되는 정보가 포함되어 있습니다.',recommend:'개인 주소라면 공개 범위를 검토해 주세요.'}
+];
+const PERSONAL_ADDRESS_CUES=/(?:우리\s?집|내\s?집|제\s?집|자취방?|거주지?|배송지|집\s?주소|이사(?:했|완료|왔)|방\s?호수|\d{1,4}동\s*\d{1,4}호|공동현관|본인\s?주소)/i;
+const BUSINESS_ADDRESS_CUES=/(?:오시는\s?길|사업자\s?등록|상호명|대표\s?전화|매장\s?안내|매장\s?위치|고객\s?센터|영업\s?시간|지점\s?안내|캠퍼스|학원|법인|사업장|주식회사|지사\s?안내|사업자\s?정보)/i;
+function classifyFinding(f, context=''){
+ if(!['address','landline','location','phone'].includes(f.kind))return f;
+ // Inspect a bounded OCR neighborhood rather than labeling an entire image by one distant cue.
+ const nearby=String(context||'').slice(0,350);
+ const local=f.text+' '+nearby;
+ const personal=PERSONAL_ADDRESS_CUES.test(local);
+ const business=BUSINESS_ADDRESS_CUES.test(local);
+ const result={...f,contextType:personal?'개인 거주지 연관 의심':business?'사업장 정보 추정':'용도 미확인'};
+ if(f.kind==='address'){
+  result.severity=personal?'높음':'주의';
+  result.mask=personal||!business;
+  result.reason=personal?'주소 형태의 정보가 거주지·배송지 관련 표현과 함께 발견되었습니다. 개인 주소로 연결될 수 있습니다.':business?'주소 형태의 정보 주변에 사업장·매장 안내 표현이 발견되었습니다. 공개 사업장 주소일 가능성이 있지만 실제 공개 여부는 확인되지 않았습니다.':'상세 주소 형태가 발견되었으나 개인 주소인지 사업장 주소인지 확인되지 않았습니다.';
+  result.recommend=business?'공개하려는 사업장 정보가 맞는지 확인하고 가림 여부를 선택해 주세요.':'개인 주소라면 불투명 가림을 권장합니다. 공개 목적과 가림 여부를 확인해 주세요.';
+ }else if(f.kind==='landline'){
+  result.severity=personal?'높음':'주의';
+  result.mask=personal||!business;
+  result.reason=personal?'일반전화 번호가 거주 관련 표현과 함께 발견되었습니다. 개인 연락처일 가능성이 있습니다.':business?'사업장 안내로 추정되는 문맥의 전화번호입니다. 공개용 연락처인지 확인이 필요합니다.':'일반전화 번호가 발견되었습니다. 개인 연락처인지 사업장 번호인지 확인되지 않았습니다.';
+  result.recommend=business?'공개된 사업장 전화번호가 맞는지 확인한 후 가림 여부를 선택해 주세요.':'개인 전화번호라면 가리기를 권장합니다.';
+ }else if(f.kind==='phone'){
+  result.severity='높음';result.mask=true;
+  if(business){result.reason='휴대전화 번호가 사업장 관련 화면에서 발견되었습니다. 실제로 공개 가능한 연락처인지 확인되지 않았습니다.';result.recommend='휴대전화 번호는 기본적으로 가리며, 공개용 연락처임을 확인한 경우에만 가림을 해제해 주세요.';}
+ }else if(f.kind==='location' && business && !personal){
+  result.mask=false;result.reason='장소명으로 추정되는 정보와 사업장 관련 표현이 함께 발견되었습니다. 사용자의 거주지 노출을 뜻하지는 않습니다.';
+ }
+ return result;
+}
+function analyzeText(text,context=''){
   const found=[];
-  for(const def of [...PATTERNS,...CONTEXT]) {
+  for(const def of [...PATTERNS,...ADDRESS_RULES,...CONTEXT]) {
     for(const m of text.matchAll(def.regex)) {
-      found.push({id:`${def.kind}:${m.index}:${m[0]}`,kind:def.kind,label:def.label,severity:def.severity,start:m.index,end:m.index+m[0].length,text:m[0],reason:def.reason,recommend:def.recommend,mask:def.kind!=='residence'&&def.kind!=='routine'&&def.kind!=='location'});
+      const f={id:`${def.kind}:${m.index}:${m[0]}`,kind:def.kind,label:def.label,severity:def.severity,start:m.index,end:m.index+m[0].length,text:m[0],reason:def.reason,recommend:def.recommend,mask:!['residence','routine','location'].includes(def.kind)};
+      found.push(classifyFinding(f,context || text.slice(Math.max(0,m.index-130),Math.min(text.length,m.index+m[0].length+130))));
     }
   }
+  // Prefer the most specific pattern, such as a full street address over its embedded locality name.
   found.sort((a,b)=>a.start-b.start || (b.end-b.start)-(a.end-a.start));
   const dedup=[];let furthest=-1;
   for(const f of found){if(f.start>=furthest){dedup.push(f);furthest=f.end;}}
@@ -446,7 +492,7 @@ function renderResults(){
  const context=combinedContext(state.findings,!!state.img);$('#crossContext').classList.toggle('hidden',!context);
  if(context)$('#crossContext').textContent=`게시글 · 사진 결합 안내 (${context.level}) — ${context.message}`;
 }
-function renderRegions(){const list=$('#regionList');list.replaceChildren();$('#regionEmpty').classList.toggle('hidden',state.regions.length>0);$('#regionSettings').classList.toggle('hidden',!state.regions.some(r=>r.id===state.selected));for(const r of state.regions){const row=make('div','region-item '+(r.id===state.selected?'current':'')+(r.source==='ocr'?' ocr-region':''));const btn=make('button','region-select',r.label);btn.type='button';if(r.source==='ocr'&&r.ocrText)btn.title=`인식된 내용: ${r.ocrText}`;btn.addEventListener('click',()=>{state.selected=r.id;renderRegions();});const meta=make('span','region-mode-label',(r.source==='ocr'?'OCR · ':'')+({solid:'불투명 가림',sticker:'스티커',pixel:'모자이크',blur:'블러'})[r.style]);const toggle=make('input','',undefined);toggle.type='checkbox';toggle.checked=r.mask;toggle.title=`${r.label} 가림 ${r.mask?'해제':'적용'}`;toggle.setAttribute('aria-label',toggle.title);toggle.addEventListener('change',()=>{r.mask=toggle.checked;state.lastExport=null;renderRegions();renderStats();if(state.mode==='view')renderPreview();});row.append(btn,meta,toggle);list.append(row);}
+function renderRegions(){const list=$('#regionList');list.replaceChildren();$('#regionEmpty').classList.toggle('hidden',state.regions.length>0);$('#regionSettings').classList.toggle('hidden',!state.regions.some(r=>r.id===state.selected));for(const r of state.regions){const row=make('div','region-item '+(r.id===state.selected?'current':'')+(r.source==='ocr'?' ocr-region':''));const info=make('div','region-info');const btn=make('button','region-select',r.label);btn.type='button';if(r.source==='ocr'&&r.ocrText)btn.title=`인식된 내용: ${r.ocrText}`;btn.addEventListener('click',()=>{state.selected=r.id;renderRegions();});info.append(btn);if(r.source==='ocr'){info.append(make('div','region-explanation',`위험도 ${r.risk} · ${r.contextType||'문맥 확인 필요'}`));if(r.reason)info.append(make('p','region-reason',r.reason));if(r.recommend)info.append(make('p','region-tip',`권장 조치: ${r.recommend}`));}const meta=make('span','region-mode-label',(r.source==='ocr'?'OCR · ':'')+({solid:'불투명 가림',sticker:'스티커',pixel:'모자이크',blur:'블러'})[r.style]);const toggle=make('input','',undefined);toggle.type='checkbox';toggle.checked=r.mask;toggle.title=`${r.label} 가림 ${r.mask?'해제':'적용'}`;toggle.setAttribute('aria-label',toggle.title);toggle.addEventListener('change',()=>{r.mask=toggle.checked;state.lastExport=null;renderRegions();renderStats();if(state.mode==='view')renderPreview();});row.append(info,meta,toggle);list.append(row);}
  const selected=state.regions.find(r=>r.id===state.selected);if(selected){$('#regionLabel').value=selected.label;$('#regionRisk').value=selected.risk;$('#regionStyle').value=selected.style;$('#stickerText').value=selected.sticker;$('#maskColor').value=selected.color;$('#stickerPicker').classList.toggle('hidden',selected.style!=='sticker');}
  const layer=$('#regionLayer');layer.replaceChildren();for(const r of state.regions){const p=make('div','region-overlay '+(r.id===state.selected?'highlight':'')+(r.mask?' active-mask':''));p.style.left=`${r.x*100}%`;p.style.top=`${r.y*100}%`;p.style.width=`${r.w*100}%`;p.style.height=`${r.h*100}%`;p.style.pointerEvents='none';p.append(make('span','region-tag',`${r.label} · ${r.mask?'ON':'OFF'}`));layer.append(p);}
 }
@@ -546,10 +592,10 @@ function flattenOCRLines(blocks){
    }
  return out;
 }
-function matchOCRWords(words){
+function matchOCRWords(words,context=''){
  // Word bounding boxes are preserved while common OCR spacing defects in phone numbers are normalized.
  const pieces=words.map(w=>w.text.trim()),original=pieces.join(' ');
- const candidates=analyzeText(original);
+ const candidates=analyzeText(original,context);
  let offset=0;
  const spans=words.map((word,i)=>{const start=offset;offset+=pieces[i].length+1;return{start,end:offset-1,word};});
  const addMatches=(hits,text,spanMap)=>{
@@ -570,24 +616,40 @@ function matchOCRWords(words){
   norm+=ch;map.push(i);
  }
  if(norm!==original){
-  const phoneOnly=analyzeText(norm).filter(f=>['phone','landline','rrn','email'].includes(f.kind));
+  const phoneOnly=analyzeText(norm,context).filter(f=>['phone','landline','rrn','email'].includes(f.kind));
   addMatches(phoneOnly,norm,map);
  }
  return hitsOut;
 }
 
 function ocrMatchesToRegions(blocks,width,height){
- const regions=[],dedup=new Set();
- for(const words of flattenOCRLines(blocks)){
-  for(const {candidate:f,box} of matchOCRWords(words)){
+ const regions=[],dedup=new Set(),lines=flattenOCRLines(blocks);
+ function addMatches(words,context,onlyMultilineAddress=false){
+  for(const {candidate:f,box} of matchOCRWords(words,context)){
    if(!['phone','email','rrn','apikey','urlsecret','residence','routine','location','landline','address'].includes(f.kind))continue;
+   if(onlyMultilineAddress && f.kind!=='address')continue;
    const pad=7;
    const x0=Math.max(0,box.x0-pad),y0=Math.max(0,box.y0-pad),x1=Math.min(width,box.x1+pad),y1=Math.min(height,box.y1+pad);
    const x=x0/width,y=y0/height,w=(x1-x0)/width,h=(y1-y0)/height;
    if(w<0.003||h<0.003)continue;
-   const key=`${f.kind}:${Math.round(x*1000)}:${Math.round(y*1000)}:${Math.round(w*1000)}`;if(dedup.has(key))continue;dedup.add(key);
-   regions.push({id:'region-'+(nextRegionId++),label:f.label+' (OCR)',x,y,w,h,mask:f.severity==='높음',risk:f.severity,style:'solid',sticker:'💗',color:'#9fbde6',source:'ocr',ocrText:f.text.slice(0,90)});
+   // Deduplicate by finding type and text; do not add a second large multiline box for the same address.
+   const key=f.kind+':'+f.text.replace(/\s+/g,'').slice(0,95)+':'+Math.round(x*1000)+':'+Math.round(y*1000)+':'+Math.round(w*1000);
+   if(dedup.has(key))continue;dedup.add(key);
+   regions.push({id:'region-'+(nextRegionId++),label:f.label+' (OCR)',x,y,w,h,mask:f.mask,risk:f.severity,
+     style:'solid',sticker:'💗',color:'#9fbde6',source:'ocr',ocrText:f.text.slice(0,120),reason:f.reason,recommend:f.recommend,contextType:f.contextType||'분류 전'});
   }
+ }
+ for(let i=0;i<lines.length;i++){
+  // Nearby lines supply context (e.g. '오시는길 / 대구캠퍼스 / 주소: ...').
+  const nearby=lines.slice(Math.max(0,i-2),Math.min(lines.length,i+3)).map(line=>line.map(w=>w.text).join(' ')).join(' ');
+  addMatches(lines[i],nearby);
+ }
+ // Support street addresses wrapped after the city or district; conservatively join adjacent OCR lines only.
+ for(let i=0;i+1<lines.length;i++){
+  const a=lines[i],b=lines[i+1],aText=a.map(w=>w.text).join(' '),bText=b.map(w=>w.text).join(' ');
+  if(!/(?:주소\s*[:：]?|서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충청|전라|경상|충북|충남|전북|전남|경북|경남|제주)/.test(aText) || aText.length>105 || bText.length>105)continue;
+  const near=lines.slice(Math.max(0,i-2),Math.min(lines.length,i+3)).map(line=>line.map(w=>w.text).join(' ')).join(' ');
+  addMatches([...a,...b],near,true);
  }
  return regions.slice(0,90);
 }
